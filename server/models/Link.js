@@ -8,13 +8,4 @@ const linkSchema = new mongoose.Schema({
 
 const Link = mongoose.model("Link", linkSchema);
 
-exports.CreateLink = (nameIN, linkIN, descIN) => {
-  let tmp = new Link({
-    name: nameIN,
-    link: linkIN,
-    desc: descIN
-  });
-  return tmp;
-};
-
 module.exports = Link;

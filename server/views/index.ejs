@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/master.css">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&display=swap" rel="stylesheet">
     <title>Romland.Space</title>
 </head>
@@ -17,23 +16,14 @@
     <div id="main">
         <script>
             async function changeContent() {
-                let searchStrung = document.getElementById("searchbox").value
-                let search = await getJSON(searchStrung);
-                console.log(search)
-                if (document.getElementById("searchbox").value == "") {
-                    document.getElementById("mostPopular").style.display = "flex";
-                    document.getElementById("searchResult").style.display = "none";
-                } else {
-                    document.getElementById("mostPopular").style.display = "none";
-                    document.getElementById("searchResult").style.display = "flex";
-                }
-                console.log("changed stuff")
+                let searchString = document.getElementById("searchbox").value
+                let search = await getJSON(searchString);
             }
             function changeSearch(searchResults){
                 let searchDiv = document.getElementById("searchResult")
                 searchDiv.innerHTML = ""
                 for (let index = 0; index < searchResults.length; index++) {
-                    let add = searchDiv.innerHTML + "<div class=\"searchItem\"><a href=\"" + searchResults[index].link + "\">" + searchResults[index].name + "</a></div>"
+                    let add = searchDiv.innerHTML + "<div class=\"searchItem\"><a href=\"" + searchResults[index].link + "\">" + searchResults[index].name + "</a><br><p>" + searchResults[index].desc + "</p></div>"
                     searchDiv.innerHTML = add
                 }
             }
@@ -47,16 +37,11 @@
                 xhttp.open("GET", "/getSearch?search=" + search, true);
                 xhttp.send();
             }
+            
         </script>
         <div id="searchArea">
             <input id="searchbox" type="search" placeholder="Search" oninput='changeContent()'>
-            <div id="mostPopular">
-                <% for( let index = 0; index < data.length; index++ ) { %>
-                <div class="searchItem">
-                    <a href="<%- data[index].link %>"><%- data[index].name %> </p>
-                </div>
-                <% } %>
-            </div>
+           
             <div id="searchResult">
                 
             </div>

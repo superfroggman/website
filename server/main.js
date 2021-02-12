@@ -3,8 +3,8 @@ const dbModule = require("./dbModule");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const fs = require("fs");
-
-var url = require("url");
+const Link = require("./models/Link.js")
+const url = require("url");
 const app = express();
 const port = 3000;
 const clientdir = __dirname + "/client";
@@ -18,11 +18,8 @@ connectToMongo("SearchEngine", "mongodb://localhost:27017/");
 security();
 
 
-
 app.get("/", async (req, res) => {
-  res.render("index", {
-    data: await dbModule.getDB(Link), //CHANGE
-  });
+  res.render("index", {});
 });
 
 app.get("/getSearch", async (req, res) => {
@@ -32,7 +29,6 @@ app.get("/getSearch", async (req, res) => {
 
   res.setHeader("Content-Type", "application/json");
   let searchThing = await dbModule.getInDB(Link, search);
-  console.log(searchThing);
   res.send(searchThing);
 });
 app.get("/insert", (req, res) =>
@@ -40,7 +36,7 @@ app.get("/insert", (req, res) =>
 );
 app.post("/newLink", (req, res) => {
   if (req.body.auth == fs.readFileSync("security/security.txt")) {
-    dbModule.saveToDB(createLink(req.body.name, req.body.link));
+    dbModule.saveToDB(createLink(req.body.name, req.body.link, req.body.desc));
   }
   res.redirect("/insert");
 });
@@ -62,7 +58,7 @@ function security() {
 function generateP() {
   var pass = "";
   var str =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz0123456789";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
   for (var i = 1; i <= 32; i++) {
     var char = Math.floor(Math.random() * str.length + 1);
@@ -82,3 +78,12 @@ function connectToMongo(dbName, connectURL) {
     dbModule.cnctDB(dbName, connectURL);
   }
 }
+
+function createLink(nameIN, linkIN, descIN){
+  let tmp = new Link({
+    name: nameIN,
+    link: linkIN,
+    desc: descIN
+  });
+  return tmp;
+};

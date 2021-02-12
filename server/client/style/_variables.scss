@@ -1,0 +1,7 @@
+$colorBase: rgb(0, 112, 65);
+
+@mixin noLinkUnderscore{
+    a{
+        text-decoration: none;
+    }
+}

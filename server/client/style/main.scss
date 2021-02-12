@@ -1,3 +1,5 @@
+@import "variables";
+
 /* Stil för alla sidor */
 
 /* Importera fonter från font-filer */
@@ -20,12 +22,7 @@
 
 /* Universell bakgrundsfärg */
 body{
-    background-color: rgb(0, 112, 65);
-}
-
-/* Ta bort understrykningen under alla hyperlänkar */
-a{
-    text-decoration: none;
+    background-color: $colorBase;
 }
 
 /* En global klass för att element som ska använda gradient */

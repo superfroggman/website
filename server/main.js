@@ -31,9 +31,12 @@ app.get("/getSearch", async (req, res) => {
   let searchThing = await dbModule.getInDB(Link, search);
   res.send(searchThing);
 });
+
+
 app.get("/insert", (req, res) =>
   res.sendFile(clientdir + "/insert.html")
 );
+
 app.post("/newLink", (req, res) => {
   if (req.body.auth == fs.readFileSync("security/security.txt")) {
     dbModule.saveToDB(createLink(req.body.name, req.body.link, req.body.desc));

@@ -6,39 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&display=swap" rel="stylesheet">
     <title>Romland.Space</title>
+
+    <script src="/scripts/script.js"></script>
+    <script src="/scripts/hamburger.js"></script>
+
+    <link rel="stylesheet" href="style/header.css">
+    <link rel="stylesheet" href="style/global.css">
 </head>
 
-<body>
+<body onload="changeContent()">
     <header>
-        <a id="headertitle" href="/">Romland.Space</a>
-        <a id="coolAboutHeader" href="/about">About</a>
+        <a href="index.html"><img src="img/icon.svg" id="headerImg" alt="icon"></a>
+
+        <div id="mobMenu" onclick="expandHamburger(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+
+        <div id="navButtons">
+            <a href="">Example button</a>
+        </div>
     </header>
+    
     <div id="main">
-        <script>
-            async function changeContent() {
-                let searchString = document.getElementById("searchbox").value
-                let search = await getJSON(searchString);
-            }
-            function changeSearch(searchResults){
-                let searchDiv = document.getElementById("searchResult")
-                searchDiv.innerHTML = ""
-                for (let index = 0; index < searchResults.length; index++) {
-                    let add = searchDiv.innerHTML + "<div class=\"searchItem\"><a href=\"" + searchResults[index].link + "\">" + searchResults[index].name + "</a><br><p>" + searchResults[index].desc + "</p></div>"
-                    searchDiv.innerHTML = add
-                }
-            }
-            async function getJSON(search) {
-                let xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        changeSearch(JSON.parse(xhttp.responseText))
-                    }
-                };
-                xhttp.open("GET", "/getSearch?search=" + search, true);
-                xhttp.send();
-            }
-            
-        </script>
         <div id="searchArea">
             <input id="searchbox" type="search" placeholder="Search" oninput='changeContent()'>
            

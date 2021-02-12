@@ -1,24 +1,37 @@
 const mongoose = require('mongoose');
-const mongAuth = require('./mongoauth.json')
 let db;
 
-exports.cnctDB = (collectionname) => {
-  mongoose.connect(
-    "mongodb://localhost:27017/" + collectionname,
-    {
-      "auth": {
-        "authSource": "admin"
-      },
-      "user": mongAuth.username,
-      "pass": mongAuth.pass
-    }
-  );
+//Connect to MongoDB With Authentication.
+exports.cnctDBAuth = (collectionname, connectURL) => {
+  const mongAuth = require("./mongoauth.json");
+  mongoose.connect(connectURL + collectionname, {
+    auth: {
+      authSource: "admin",
+    },
+    user: mongAuth.username,
+    pass: mongAuth.pass,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 
   db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function () { });
-  console.log("Connected to Database!")
-}
+  db.on("error", console.error.bind(console, "connection error:"));
+  db.once("open", function () {
+    console.log("Connected to MongoDB using collection " + collectionname);
+  });
+};
+
+//Connect to MongoDB
+exports.cnctDB = (collectionname, connectURL) => {
+  let dbLink = connectURL + collectionname;
+  mongoose.connect(dbLink, { useNewUrlParser: true, useUnifiedTopology: true });
+
+  db = mongoose.connection;
+  db.on("error", console.error.bind(console, "connection error:"));
+  db.once("open", function () {
+    console.log("Connected to MongoDB using " + collectionname);
+  });
+};
 
 exports.getInDB = async (Model, search) => {
   const regex = new RegExp(escapeRegex(search), 'gi');
@@ -30,7 +43,7 @@ function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-exports.findTopinDB = async (Model) => {
+exports.getDB = async (Model) => {
   return await Model.find({})
 }
 

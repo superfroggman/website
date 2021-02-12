@@ -6,7 +6,7 @@ function changeSearch(searchResults){
     let searchDiv = document.getElementById("searchResult")
     searchDiv.innerHTML = ""
     for (let index = 0; index < searchResults.length; index++) {
-        let add = searchDiv.innerHTML + "<div class=\"searchItem\"><a href=\"" + searchResults[index].link + "\">" + searchResults[index].name + "</a><br><p>" + searchResults[index].desc + "</p></div>"
+        let add = searchDiv.innerHTML + "<a class=\"searchItem\" href=\"" + searchResults[index].link + "\"><p class=\"resultName\">" + searchResults[index].name + "<br><p class=\"resultDescription\">" + searchResults[index].desc + "</p></a>"
         searchDiv.innerHTML = add
     }
 }
